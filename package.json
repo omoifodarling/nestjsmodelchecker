@@ -1,5 +1,5 @@
 {
-  "name": "webmodelchecker",
+  "name": "nestjsmodelchecker",
   "version": "0.1.0",
   "description": "Model checker API for Plugin Checks",
   "author": "Darlington Omoifo",
