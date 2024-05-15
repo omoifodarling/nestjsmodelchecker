@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { AuthModule } from './auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -9,7 +10,7 @@ describe('AuthService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [UsersService, AuthService],
-      imports: [AuthModule],
+      imports: [AuthModule, JwtModule],
     }).compile();
 
     // noinspection TypeScriptValidateTypes
