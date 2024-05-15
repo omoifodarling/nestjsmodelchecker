@@ -1,17 +1,20 @@
 
-## Running the app
+## Run the app
 
 ```bash
 # development
-$ npm run start
+- `npm run start`
 
 # watch mode
-$ npm run start:dev
+- `npm run start:dev`
 
 # production mode
-$ npm run start:prod
+- `npm run start:prod`
 ```
-
+## Testing the Running App
+- Go to browser - localhost:3030/api
+- make requests here and get token
+- use token to make curl request e.g. to get `users` (testing `auth`)
 ## Test
 
 ```bash
