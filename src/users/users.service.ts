@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
+import { User } from './schemas/users';
+import { Connection } from 'mongoose';
+import { CreateUserDto } from './dto/create-check-result.dto';
 
-export interface User {
+/*export interface User {
   firstName?: string;
   lastName?: string;
   username: string;
@@ -9,7 +12,7 @@ export interface User {
   email: string;
   userId: string;
   password: string;
-}
+}*/
 
 export interface UserToken {
   accessToken: string;
@@ -18,20 +21,12 @@ export interface UserToken {
 
 @Injectable()
 export class UsersService {
+  constructor(@Inject('DATABASE_CONNECTION') private connection: Connection) {}
+
   private userTokens: Record<string, UserToken> = {};
   private readonly users: User[] = [
-    {
-      userId: '1',
-      username: 'john',
-      password: 'changeme',
-      email: 'john@company.com',
-    },
-    {
-      userId: '2',
-      username: 'maria',
-      password: 'guess',
-      email: 'maria@company.com',
-    },
+    new User('1', 'john', 'changeme', 'john@company.com'),
+    new User('2', 'maria', 'guess', 'maria@company.com'),
   ];
 
   async findOne(username: string): Promise<User | undefined> {
@@ -68,5 +63,10 @@ export class UsersService {
       acc[ind] = val;
       return acc;
     }, this.users);
+  }
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const userModel = this.connection.model('User');
+    return userModel.create(createUserDto);
   }
 }
