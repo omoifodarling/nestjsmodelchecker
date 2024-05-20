@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type CheckResultDocument = HydratedDocument<CheckResult>;
 
-@Schema()
+@Schema({ collection: 'CheckResult' })
 export class CheckResult {
   @Prop()
   dataFileUrl: string;

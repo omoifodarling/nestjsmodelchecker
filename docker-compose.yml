@@ -8,6 +8,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: test
       MONGO_DB_NAME: "nest"
+      DB_HOST: "nest"
       #NODE_TLS_REJECT_UNAUTHORIZED: 0
     volumes:
       - mongodb_data:/data/db

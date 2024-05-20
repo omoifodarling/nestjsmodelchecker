@@ -7,7 +7,9 @@ import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { UsersService } from '../users/users.service';
 import { JwtModule } from '@nestjs/jwt';
-import { bearerConstants, jwtConstants } from './constants';
+import { jwtConstants } from './constants';
+import { MongoDbService } from '../mongodb/mongodb.service';
+import { MongoDbModule } from '../mongodb/mongodb.module';
 
 /*@Module({
   imports: [
@@ -52,8 +54,22 @@ import { bearerConstants, jwtConstants } from './constants';
         expiresIn: 3600,
       },
     }),
+    MongoDbModule,
+    //...DbProviders[0],
+    //UsersService,
+    //MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
-  providers: [JwtStrategy, BearerStrategy, AuthService, UsersService],
+  providers: [
+    JwtStrategy,
+    BearerStrategy,
+    MongoDbService,
+    AuthService,
+    UsersService,
+    {
+      provide: 'DATABASE_CONNECTION',
+      useExisting: MongoDbService,
+    },
+  ],
   exports: [PassportModule, UsersModule],
   controllers: [AuthController],
 })

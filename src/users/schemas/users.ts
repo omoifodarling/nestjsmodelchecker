@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({ collection: 'User' })
 export class User {
   constructor(userId: string, username: string, pass: string, email: string) {
     this.userId = userId;
@@ -13,17 +13,15 @@ export class User {
   }
 
   @Prop({ required: true, message: 'username is required' })
-  username: string;
-  @Prop()
-  name: string;
+  public username: string;
   @Prop()
   accessToken: string;
   @Prop({ required: true, message: 'email is required' })
-  email: string;
+  public email: string;
   @Prop()
-  firstName: string;
+  public firstName: string;
   @Prop()
-  lastName: string;
+  public lastName: string;
   @Prop({ required: true, message: 'password is required' })
   password: string;
   @Prop()

@@ -2,11 +2,10 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { AuthService } from '../auth/auth.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { bearerConstants } from '../auth/constants';
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './schemas/users';
-import { databaseProvider } from '../database/dbProvider';
+import { MongoDbModule } from '../mongodb/mongodb.module';
+import { MongoDbService } from '../mongodb/mongodb.service';
 
 @Module({
   imports: [
@@ -16,10 +15,20 @@ import { databaseProvider } from '../database/dbProvider';
         expiresIn: 3600,
       },
     }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongoDbModule,
+    //{ provide: 'DATABASE_CONNECTION', useExisting: MongoDbService },
+    //MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
-  providers: [databaseProvider, AuthService, UsersService],
-  exports: [UsersService, databaseProvider],
+  providers: [
+    MongoDbService,
+    AuthService,
+    UsersService,
+    {
+      provide: 'DATABASE_CONNECTION',
+      useExisting: MongoDbService,
+    },
+  ],
+  exports: [UsersService],
   controllers: [UsersController],
 })
 export class UsersModule {}

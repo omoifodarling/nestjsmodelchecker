@@ -1,18 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
-import { User } from './schemas/users';
-import { Connection } from 'mongoose';
-import { CreateUserDto } from './dto/create-check-result.dto';
-
-/*export interface User {
-  firstName?: string;
-  lastName?: string;
-  username: string;
-  accessToken?: string;
-  email: string;
-  userId: string;
-  password: string;
-}*/
+import { User, UserSchema } from './schemas/users';
+import { MongoDbService } from '../mongodb/mongodb.service';
 
 export interface UserToken {
   accessToken: string;
@@ -21,13 +10,22 @@ export interface UserToken {
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject('DATABASE_CONNECTION') private connection: Connection) {}
-
-  private userTokens: Record<string, UserToken> = {};
+  private userTokens: Record<
+    string,
+    {
+      accessToken: string;
+      userId: string;
+    }
+  > = {};
+  private readonly userModel: any;
   private readonly users: User[] = [
     new User('1', 'john', 'changeme', 'john@company.com'),
     new User('2', 'maria', 'guess', 'maria@company.com'),
   ];
+
+  constructor(@Inject('DATABASE_CONNECTION') private readonly mongoDbService: MongoDbService) {
+    this.userModel = mongoDbService.getModel(User.name, UserSchema);
+  }
 
   async findOne(username: string): Promise<User | undefined> {
     return this.users.find((user) => user.username === username);
@@ -65,8 +63,8 @@ export class UsersService {
     }, this.users);
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const userModel = this.connection.model('User');
-    return userModel.create(createUserDto);
+  async create(createUser: User): Promise<User> {
+    const userModel = new this.userModel(createUser);
+    return userModel.save();
   }
 }
