@@ -63,16 +63,6 @@ jobs:
   test-with-db:
     needs: setup-node
     runs-on: ubuntu-latest
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: test
-          MONGO_DB_NAME: "nest"
-          DB_URL: 'mongodb://root:test@localhost:27017'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
@@ -81,8 +71,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
         run: npm ci
-      - name: Start MongoDB Memory Server
-        run: npx nodemon --exec "npm run start:mongo"
       - name: Run Tests
         run: npm test
 
