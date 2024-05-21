@@ -72,6 +72,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
         run: npm install
+      - name: Install lsof
+        run: |
+          sudo apt-get update
+          sudo apt-get install lsof
       - name: Check if port 12017 is busy
         id: check_port
         run: |
