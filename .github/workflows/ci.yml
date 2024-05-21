@@ -79,7 +79,7 @@ jobs:
       - name: Check if port 12017 is busy
         id: check_port
         run: |
-          if lsof -i :27017; then
+          if lsof -nP -i:27017; then
           echo "Port 27017 is already in use"
           else
           echo "Port 27017 is available"
