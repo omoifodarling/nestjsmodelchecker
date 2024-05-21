@@ -20,7 +20,6 @@ export class MongoDbService {
   };
 
   getModel = (modelName: string, modelSchema: mongoose.Schema) => {
-    //return this.conn.model<T>(modelName, modelSchema);
     return this.conn.model(modelName, modelSchema);
   };
 }
