@@ -73,7 +73,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Start MongoDB Memory Server
-        run: npx nodemon --exec "npm run start:mongo"
+        run: npx nodemon --exec "npm run start:mongo" && sleep 5
       - name: Run Tests
         run: npm test
 
