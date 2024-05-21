@@ -89,4 +89,6 @@ jobs:
               # Example: docker run -d -p 12017:27017 --name mongo_container mongo:latest
       - name: Run Tests
         run: npm test
+      - name: Stop and exit the service
+        run: docker-compose down
 
