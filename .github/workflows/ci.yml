@@ -83,10 +83,10 @@ jobs:
           echo "Port 27017 is already in use"
           else
           echo "Port 27017 is available"
-          echo "::set-output name=port_available::true"
+            echo "{port_available}={'true'}" >> $GITHUB_STATE
           fi
           - name: Start MongoDB if port is available
-            if: steps.check_port.outputs.port_available == 'true'
+            if: ${{steps.compile.outputs.port_available}} == 'true'
             run: |
               # Start MongoDB container or process here
               npx nodemon --exec "npm run start:mongo" && sleep 5
