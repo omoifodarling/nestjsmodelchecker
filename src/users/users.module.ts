@@ -16,18 +16,8 @@ import { MongoDbService } from '../mongodb/mongodb.service';
       },
     }),
     MongoDbModule,
-    //{ provide: 'DATABASE_CONNECTION', useExisting: MongoDbService },
-    //MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
-  providers: [
-    MongoDbService,
-    AuthService,
-    UsersService,
-    {
-      provide: 'DATABASE_CONNECTION',
-      useExisting: MongoDbService,
-    },
-  ],
+  providers: [MongoDbService, AuthService, UsersService],
   exports: [UsersService],
   controllers: [UsersController],
 })

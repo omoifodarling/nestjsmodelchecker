@@ -8,13 +8,7 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        UsersService,
-        {
-          provide: 'DATABASE_CONNECTION',
-          useExisting: MongoDbService,
-        },
-      ],
+      providers: [UsersService, MongoDbService],
       imports: [MongoDbModule],
     }).compile();
 

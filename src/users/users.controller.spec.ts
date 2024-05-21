@@ -14,14 +14,7 @@ describe('UsersController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
       imports: [JwtModule, AuthModule, MongoDbModule],
-      providers: [
-        AuthService,
-        UsersService,
-        {
-          provide: 'DATABASE_CONNECTION',
-          useExisting: MongoDbService,
-        },
-      ],
+      providers: [AuthService, UsersService, MongoDbService],
     }).compile();
 
     controller = module.get<UsersController>(UsersController);

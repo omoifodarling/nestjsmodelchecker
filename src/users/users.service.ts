@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
-import { User, UserSchema } from './schemas/users';
-import { MongoDbService } from '../mongodb/mongodb.service';
+import { User } from './schemas/users';
+import { Model } from 'mongoose';
 
 export interface UserToken {
   accessToken: string;
@@ -17,14 +17,14 @@ export class UsersService {
       userId: string;
     }
   > = {};
-  private readonly userModel: any;
+  //private readonly userModel: any;
   private readonly users: User[] = [
     new User('1', 'john', 'changeme', 'john@company.com'),
     new User('2', 'maria', 'guess', 'maria@company.com'),
   ];
 
-  constructor(@Inject('DATABASE_CONNECTION') private readonly mongoDbService: MongoDbService) {
-    this.userModel = mongoDbService.getModel(User.name, UserSchema);
+  constructor(@Inject('USER_MODEL') private readonly userModel: Model<User>) {
+    //this.userModel = mongoDbService.getModel(User.name, UserSchema);
   }
 
   async findOne(username: string): Promise<User | undefined> {
